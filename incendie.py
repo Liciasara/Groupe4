@@ -35,26 +35,23 @@ Tableau = []
 def quadrillage(COLONE, LIGNE, COTE):
     """Dessine un quadrillage dans le canevas avec des carrés de côté COTE"""
     global Tableau
-    x0 = 0
-    y0 = 0
-    x1 = COTE
-    y1 = COTE
-    for i in range(LIGNE) :
-        for j in range(COLONE) :
-            Tableau[i][j][2] = canvas.create_rectangle((x0, y0), (x1, y1), fill="white", outline="black")
+    x0, y0, x1, y1 = 0, 0, COTE, COTE
+    for i in range(COLONE) :
+        for j in range(LIGNE) :
+            Tableau[i][j][0] = COLOR_TERRAIN[random.randint(0, 2)]
+            Tableau[i][j][2] = canvas.create_rectangle((x0, y0), (x1, y1), fill=Tableau[i][j][0], outline="black")
             x0 += COTE
             x1 += COTE
-        x0 = 0
-        x1 = COTE
+        x0, x1 = 0, COTE
         y0 += COTE
         y1 += COTE
 
 def initial_tableau(Tableau, COLONE, LIGNE) :
     """Créé un tableau à double entrée de liste"""
-    for i in range (LIGNE) : 
+    for i in range (COLONE) : 
         i = []
         Tableau.append(i)
-        for j in range (COLONE) :
+        for j in range (LIGNE) :
             j = ["", 0, 0]
             i.append(j)
 
@@ -69,12 +66,11 @@ def met_le_feu(event) :
     """Remplace la couleur du terrain par du rouge"""
     global Tableau, COTE
     xclic, yclic = event.x, event.y
-    col = xclic // COTE
-    lig = yclic // COTE 
-    if Tableau[lig][col][0] != "blue" :
-        Tableau[lig][col][0] = "red"
-        canvas.itemconfigure(Tableau[lig][col][2], fill="red")
-        print(Tableau)
+    i = yclic // COTE
+    j = xclic // COTE 
+    if Tableau[i][j][0] != "blue" :
+        Tableau[i][j][0] = "red"
+        canvas.itemconfigure(Tableau[i][j][2], fill="red")
 
 #######################################
 # Programme principale
